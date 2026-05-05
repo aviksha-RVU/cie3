@@ -1,4 +1,7 @@
-import os
+"""
+Main ML pipeline using Iris dataset with MLflow logging.
+"""
+
 import joblib
 import mlflow
 import mlflow.sklearn
@@ -10,43 +13,49 @@ from sklearn.metrics import accuracy_score
 
 
 def load_data():
-    data = load_iris()
-    X, y = data.data, data.target
-    return train_test_split(X, y, test_size=0.2, random_state=42)
+    """Load and split Iris dataset."""
+    iris = load_iris(as_frame=True)
+    x = iris.data
+    y = iris.target
+
+    return train_test_split(x, y, test_size=0.2, random_state=42)
 
 
-def train_model(X_train, y_train):
+def train_model(x_train, y_train):
+    """Train RandomForest model."""
     model = RandomForestClassifier(n_estimators=100)
-    model.fit(X_train, y_train)
+    model.fit(x_train, y_train)
     return model
 
 
-def evaluate(model, X_test, y_test):
-    preds = model.predict(X_test)
-    acc = accuracy_score(y_test, preds)
-    return acc
+def evaluate(model, x_test, y_test):
+    """Evaluate model accuracy."""
+    predictions = model.predict(x_test)
+    return accuracy_score(y_test, predictions)
 
 
-def save_model(model, path="model.pkl"):
-    joblib.dump(model, path)
+def save_model(model):
+    """Save trained model."""
+    joblib.dump(model, "model.pkl")
 
 
 def main():
+    """Main execution pipeline."""
     mlflow.set_experiment("iris-classifier")
 
     with mlflow.start_run():
-        X_train, X_test, y_train, y_test = load_data()
+        x_train, x_test, y_train, y_test = load_data()
 
-        model = train_model(X_train, y_train)
-        acc = evaluate(model, X_test, y_test)
+        model = train_model(x_train, y_train)
+        accuracy = evaluate(model, x_test, y_test)
 
         save_model(model)
 
         mlflow.log_param("model", "RandomForest")
-        mlflow.log_metric("accuracy", acc)
+        mlflow.log_metric("accuracy", accuracy)
         mlflow.sklearn.log_model(model, "model")
 
-        print(f"Model Accuracy: {acc}")
+        print(f"Accuracy: {accuracy}")
 
 
 if __name__ == "__main__":
