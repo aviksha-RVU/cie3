@@ -14,9 +14,7 @@ from sklearn.metrics import accuracy_score
 
 def load_data():
     """Load and split Iris dataset."""
-    iris = load_iris(as_frame=True)
-    x = iris.data
-    y = iris.target
+    x, y = load_iris(return_X_y=True)
 
     return train_test_split(x, y, test_size=0.2, random_state=42)
 
@@ -35,7 +33,7 @@ def evaluate(model, x_test, y_test):
 
 
 def save_model(model):
-    """Save trained model."""
+    """Save trained model to file."""
     joblib.dump(model, "model.pkl")
 
 
