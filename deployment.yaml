@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cie3-ml-deployment
+  labels:
+    app: cie3-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cie3-ml
+  template:
+    metadata:
+      labels:
+        app: cie3-ml
+    spec:
+      containers:
+        - name: cie3-container
+          image: aviksharvu2026/cie3docker:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000

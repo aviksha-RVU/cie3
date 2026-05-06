@@ -1,4 +1,8 @@
 scikit-learn
 mlflow
 joblib
+<<<<<<< HEAD
 pylint
+=======
+pylint
+>>>>>>> b4f8f54 (final update)

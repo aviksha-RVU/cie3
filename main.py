@@ -15,7 +15,6 @@ from sklearn.metrics import accuracy_score
 def load_data():
     """Load and split Iris dataset."""
     x, y = load_iris(return_X_y=True)
-
     return train_test_split(x, y, test_size=0.2, random_state=42)
 
 
@@ -33,7 +32,7 @@ def evaluate(model, x_test, y_test):
 
 
 def save_model(model):
-    """Save trained model to file."""
+    """Save trained model."""
     joblib.dump(model, "model.pkl")
 
 
@@ -53,7 +52,7 @@ def main():
         mlflow.log_metric("accuracy", accuracy)
         mlflow.sklearn.log_model(model, "model")
 
-        print(f"Accuracy: {accuracy}")
+        print(f"Model Accuracy: {accuracy}")
 
 
 if __name__ == "__main__":
