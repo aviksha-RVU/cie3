@@ -1,7 +1,7 @@
 """
 Main ML pipeline using Iris dataset with MLflow logging.
 """
-
+print("MODEL VERSION: v2")
 import joblib
 import mlflow
 import mlflow.sklearn
